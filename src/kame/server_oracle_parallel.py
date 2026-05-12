@@ -895,7 +895,8 @@ Since the output will be spoken, avoid symbols not needed for pronunciation (e.g
                         # surface any generated text tokens
                         text_token = tokens[0, 0, 0].item()
                         if text_token not in (0, 3):
-                            _text = self.text_tokenizer.id_to_piece(text_token).replace("▁", " ")
+                            _text = self.text_tokenizer.id_to_piece(text_token)  # type: ignore[attr-defined]
+                            _text = _text.replace("▁", " ")
                             msg = b"\x02" + bytes(_text, encoding="utf8")
                             add_to_conversation("moshi", _text.strip(), flush_file=False)
                             ts = int(time.time() * 1000)
